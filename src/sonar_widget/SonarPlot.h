@@ -23,6 +23,9 @@ public:
     SonarPlot(QWidget *parent = 0);
     virtual ~SonarPlot();
     void setData(const base::samples::SonarScan scan);
+    void setLabelX(double value);
+    void setLabelY(double value);
+    void setMaxRange(double value);
     
 protected:
     void paintEvent(QPaintEvent *event);
@@ -37,6 +40,8 @@ protected:
     QVector<QColor> colorMap;
     QList<SonarPlotPixel> pixelList;
     QPoint origin;
+    
+    double labelX, labelY, maxRange;
     
 protected slots:
     void rangeChanged(int);

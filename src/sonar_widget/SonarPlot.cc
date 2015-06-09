@@ -22,7 +22,11 @@ SonarPlot::SonarPlot(QWidget *parent)
   QPalette Pal(palette());
   Pal.setColor(QPalette::Background, colorMap[0]);
   setAutoFillBackground(true);
-  setPalette(Pal);  
+  setPalette(Pal);
+
+  labelX = 0.0;
+  labelY = 0.0;
+  maxRange = 16.0;
 }
 
 SonarPlot::~SonarPlot()
@@ -34,6 +38,10 @@ void SonarPlot::setData(const base::samples::SonarScan scan)
   lastSonarScan = sonarScan;
   lastSonarScan.data.clear();
   sonarScan = scan;
+  
+  if(sonarScan.memory_layout_column)
+    sonarScan.toggleMemoryLayout();
+  
   if(!sonarScan.number_of_bins || !sonarScan.number_of_beams){
     return;
   }
@@ -70,6 +78,17 @@ void SonarPlot::setData(const base::samples::SonarScan scan)
  update();
 }
 
+void SonarPlot::setLabelX(double value){
+  labelX = value;
+}
+
+void SonarPlot::setLabelY(double value){
+  labelY = value;
+}
+
+void SonarPlot::setMaxRange(double value){
+  maxRange = value;
+}
 
 void SonarPlot::paintEvent(QPaintEvent *)
 {
@@ -135,6 +154,14 @@ void SonarPlot::drawOverlay()
       painter.setBrush(QBrush(colorMap[i]));
       painter.drawRect(width()-30,height()-10-i*2,20,2);
     }
+    
+    int x = width()/2-  BINS_REF_SIZE * (labelY / maxRange) * scaleX;
+    int y = height()-30 - BINS_REF_SIZE * (labelX / maxRange) *scaleY;
+    
+    painter.setPen(QPen(colorMap[254]));
+    painter.setBrush(QBrush(colorMap[254]));
+    painter.drawEllipse(x,y,5,5);
+    
 }
 
 void SonarPlot::rangeChanged(int value)

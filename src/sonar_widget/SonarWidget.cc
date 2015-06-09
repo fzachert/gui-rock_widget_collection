@@ -98,6 +98,21 @@ void SonarWidget::setGain(int value)
   slGain->setValue(value);
 }
 
+void SonarWidget::setLabelX(double value)
+{
+  plot->setLabelX(value);
+}
+
+void SonarWidget::setLabelY(double value)
+{
+  plot->setLabelY(value);
+}
+
+void SonarWidget::setMaxRange(double value)
+{
+  plot->setMaxRange(value);
+}
+
 void SonarWidget::setRange(int value)
 {
   QString str;

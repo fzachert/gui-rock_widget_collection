@@ -28,6 +28,9 @@ public slots:
     void setData(const base::samples::SonarScan scan);
     void setGain(int);
     void setRange(int);
+    void setLabelX(double);
+    void setLabelY(double);
+    void setMaxRange(double);
 
 protected slots:
     void onSlGainChanged(int);
